@@ -1,1 +1,0 @@
-<h1>2048 console app for Windows</h1>
