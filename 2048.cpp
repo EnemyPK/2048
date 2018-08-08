@@ -42,12 +42,19 @@ void Table::drow()
     /* Get random block for table */
 
     number = rand() % 2;
-    row    = rand() % ROW;
-    col    = rand() % COL;
+
+    while(true)
+    {
+        row    = rand() % ROW;
+        col    = rand() % COL;
+        if(table[row][col] == 0)
+            break;
+    }
 
     table[row][col] = number * 2 + 2;
 
     /* Show table */
+    system("cls");
     std::cout << "-------------------------------------" << std::endl;
     for(size_t i = 0; i < ROW; ++i)
     {

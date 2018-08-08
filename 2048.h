@@ -15,6 +15,10 @@ public:
 
     void drow();
     void write_number(int);
+    void move_left();
+    void move_right();
+    void move_up();
+    void move_down();
 
 private:
     int  **table;
