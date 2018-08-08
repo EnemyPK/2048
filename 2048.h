@@ -1,9 +1,10 @@
-#include #include <string>
+#include <string>
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 
-#define RAW 4
-#define CEL 4
+#define ROW 4
+#define COL 4
 #define NUMBERS 12
 
 class Table
@@ -13,8 +14,9 @@ public:
     ~Table();
 
     void drow();
+    void write_number(int);
 
 private:
     int  **table;
-
+    int score;
 };
