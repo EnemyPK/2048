@@ -1,1 +1,1 @@
-<h1> 2048 console app for Windows</h1>
+<h1> 2048 console app for DOS</h1>
