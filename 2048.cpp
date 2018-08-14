@@ -48,18 +48,25 @@ void Table::drow()
 
     number = rand() % 2;
 
-    while(true)
+    if(free == 0)
     {
-        row    = rand() % ROW;
-        col    = rand() % COL;
-        if(table[row][col] == 0)
-            break;
+        if(is_dead())
+            game_over();
     }
+    else
+    {
+        while(true)
+        {
+            row    = rand() % ROW;
+            col    = rand() % COL;
+            if(table[row][col] == 0)
+                break;
+        }
 
-    table[row][col] = number * 2 + 2;
-    score += table[row][col];
-    ++free;
-
+        table[row][col] = number * 2 + 2;
+        score += table[row][col];
+        --free;
+    }
     /* Show table */
     std::cout << "-------------------------------------" << std::endl;
     for(size_t i = 0; i < ROW; ++i)
@@ -147,7 +154,7 @@ void Table::move_left()
 
                     score += table[i][position];
                     change = true;
-                    --free;
+                    ++free;
                 }
                 else if((position + 1) != j)
                 {
@@ -157,12 +164,9 @@ void Table::move_left()
                 }
             }
 
-    if(change)
-    {
-        system("cls");
-        std::cout << "SCORE:" << score <<std::endl;
-        drow();
-    }
+    system("cls");
+    std::cout << "SCORE:" << score <<std::endl;
+    drow();
 }
 
 /*************************************
@@ -203,7 +207,7 @@ void Table::move_right()
 
                     score += table[i][position];
                     change = true;
-                    --free;
+                    ++free;
                 }
                 else if((position - 1) != j)
                 {
@@ -214,12 +218,9 @@ void Table::move_right()
             }
         }
 
-    if(change)
-    {
-        system("cls");
-        std::cout << "SCORE:" << score <<std::endl;
-        drow();
-    }
+    system("cls");
+    std::cout << "SCORE:" << score <<std::endl;
+    drow();
 }
 
 /*************************************
@@ -256,7 +257,7 @@ void Table::move_up()
 
                     score += table[i][position];
                     change = true;
-                    --free;
+                    ++free;
                 }
                 else if((position + 1) != j)
                 {
@@ -266,12 +267,9 @@ void Table::move_up()
                 }
             }
 
-    if(change)
-    {
-        system("cls");
-        std::cout << "SCORE:" << score <<std::endl;
-        drow();
-    }
+    system("cls");
+    std::cout << "SCORE:" << score <<std::endl;
+    drow();
 }
 
 /*************************************
@@ -312,7 +310,7 @@ void Table::move_down()
 
                     score += table[i][position];
                     change = true;
-                    --free;
+                    ++free;
                 }
                 else if((position - 1) != j)
                 {
@@ -323,12 +321,9 @@ void Table::move_down()
             }
         }
 
-    if(change)
-    {
-        system("cls");
-        std::cout << "SCORE:" << score <<std::endl;
-        drow();
-    }
+    system("cls");
+    std::cout << "SCORE:" << score <<std::endl;
+    drow();
 }
 
 /*************************************
@@ -340,6 +335,28 @@ void Table::game_over()
 
     std::cout << "GAME OVER" << std::endl;
     std::cout << "SCORE:" << score <<std::endl;
+
+    exit(0);
+}
+
+/*************************************
+ * Metod for checking status of game *
+ *************************************/
+bool Table::is_dead()
+{
+    for(size_t i = 0; i < ROW; ++i)
+        for(size_t j = 0; j < COL; ++j)
+        {
+            if((j + 1) < COL)
+                if(table[i][j] == table[i][j + 1])
+                    return false;
+
+            if((i + 1) < ROW)
+                if(table[i][j] == table[i + 1][j])
+                    return false;
+        }
+
+    return true;
 }
 
 Table::~Table()

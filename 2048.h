@@ -26,6 +26,7 @@ public:
     void move_up();
     void move_down();
     void game_over();
+    bool is_dead();
 
 private:
     int** table;
