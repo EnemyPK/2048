@@ -1,3 +1,12 @@
+/*
+    The definition of metods for describe
+    the logic of the game. And display it.
+
+    Version 1.11
+
+    Last Revised 8/14/2018
+    Autor ENEMY
+*/
 #include "2048.h"
 
 Table::Table()
@@ -20,6 +29,7 @@ Table::Table()
         for(size_t j = 0; j < COL; ++j)
             table[i][j] = 0;
 
+    /* Standart output for starting game */
     system("cls");
     std::cout << "SCORE:" << score <<std::endl;
 
@@ -30,13 +40,11 @@ Table::Table()
     row    = rand() % ROW;
     col    = rand() % COL;
 
-    table[row][col] = number * 2 + 2;
-    score += table[row][col];
+    table[row][col] = number * 2 + 2; /* Paste value in block */
+    score += table[row][col];         /* Increase score */
 }
 
-/*********************************
- * Method for drownig game table *
- *********************************/
+/* Method for drownig game table */
 void Table::drow()
 {
     /* Variable for Random values*/
@@ -48,25 +56,20 @@ void Table::drow()
 
     number = rand() % 2;
 
-    if(free == 0)
+    
+    while(true)       /* Searching free block */
     {
-        if(is_dead())
-            game_over();
-    }
-    else
-    {
-        while(true)
-        {
-            row    = rand() % ROW;
-            col    = rand() % COL;
-            if(table[row][col] == 0)
-                break;
-        }
+        row = rand() % ROW;
+        col = rand() % COL;
 
-        table[row][col] = number * 2 + 2;
-        score += table[row][col];
-        --free;
+        if(table[row][col] == 0)
+            break;
     }
+
+    table[row][col] = number * 2 + 2;  /* Paste value in block */
+    score += table[row][col];          /* Increase score */
+    --free;
+
     /* Show table */
     std::cout << "-------------------------------------" << std::endl;
     for(size_t i = 0; i < ROW; ++i)
@@ -85,45 +88,43 @@ void Table::drow()
     }
 }
 
-/*************************************
- * Metod for writing number in table *
- *************************************/
+/* Metod for writing number in table */
 void Table::write_number(int number)
 {
     int    numb = number;
     int    is_n = 0;
     size_t size = 0;
 
-    while(numb != 0)
-    {
-        numb /= 10;
-        ++size;
-    }
-
-    if(size == 0)
+    if(numb == 0)     /* If number is 0, write empty string */
     {
         std::cout << "        ";
         return;
     }
 
-    is_n = (8 - size) % 2;
+    while(numb != 0)  /* Get the size of number */
+    {
+        numb /= 10;
+        ++size;
+    }
+
+    is_n = (8 - size) % 2;  /* Check for parity the size of free space */
 
     if(is_n)
         std::cout << " ";
 
-    for(size_t i = (8 - size) / 2; i > 0; --i)
+    is_n = (8 - size) / 2;
+
+    /* Write number */
+    for(size_t i = is_n; i > 0; --i)
         std::cout << " ";
 
     std::cout << number;
 
-    for(size_t i = (8 - size) / 2; i > 0; --i)
+    for(size_t i = is_n; i > 0; --i)
         std::cout << " ";
 }
 
-/*************************************
- * Metod for move to left value in   *
- * the table                         *
- *************************************/
+/* Metod for move to left values in the table */
 void Table::move_left()
 {
     int  position = 0;
@@ -164,15 +165,20 @@ void Table::move_left()
                 }
             }
 
-    system("cls");
-    std::cout << "SCORE:" << score <<std::endl;
-    drow();
+    if(free == 0)         /* If we have not free space */
+    {
+        if(is_dead())     /* And we have not opportunity to move blocks */
+            game_over();  /* Exit from game */
+    }
+    else if(change)   /* If we have changes */
+    {
+        system("cls");  /* Clear screen */
+        std::cout << "SCORE:" << score <<std::endl; /* Output score */
+        drow();  /* Drow table */
+    }
 }
 
-/*************************************
- * Metod for move to right value in   *
- * the table                         *
- *************************************/
+/* Metod for move to right values in the table */
 void Table::move_right()
 {
     int  position = 0;
@@ -218,15 +224,20 @@ void Table::move_right()
             }
         }
 
-    system("cls");
-    std::cout << "SCORE:" << score <<std::endl;
-    drow();
+    if(free == 0)         /* If we have not free space */
+    {
+        if(is_dead())     /* And we have not opportunity to move blocks */
+            game_over();  /* Exit from game */
+    }
+    else if(change)   /* If we have changes */
+    {
+        system("cls");  /* Clear screen */
+        std::cout << "SCORE:" << score <<std::endl; /* Output score */
+        drow();  /* Drow table */
+    }
 }
 
-/*************************************
- * Metod for move to up value in   *
- * the table                         *
- *************************************/
+/* Metod for move to up values in the table */
 void Table::move_up()
 {
     int  position = 0;
@@ -267,15 +278,20 @@ void Table::move_up()
                 }
             }
 
-    system("cls");
-    std::cout << "SCORE:" << score <<std::endl;
-    drow();
+    if(free == 0)         /* If we have not free space */
+    {
+        if(is_dead())     /* And we have not opportunity to move blocks */
+            game_over();  /* Exit from game */
+    }
+    else if(change)   /* If we have changes */
+    {
+        system("cls");  /* Clear screen */
+        std::cout << "SCORE:" << score <<std::endl; /* Output score */
+        drow();  /* Drow table */
+    }
 }
 
-/*************************************
- * Metod for move to down value in   *
- * the table                         *
- *************************************/
+/* Metod for move to down values in the table */
 void Table::move_down()
 {
     int  position = 0;
@@ -321,14 +337,20 @@ void Table::move_down()
             }
         }
 
-    system("cls");
-    std::cout << "SCORE:" << score <<std::endl;
-    drow();
+    if(free == 0)         /* If we have not free space */
+    {
+        if(is_dead())     /* And we have not opportunity to move blocks */
+            game_over();  /* Exit from game */
+    }
+    else if(change)   /* If we have changes */
+    {
+        system("cls");  /* Clear screen */
+        std::cout << "SCORE:" << score <<std::endl; /* Output score */
+        drow();  /* Drow table */
+    }
 }
 
-/*************************************
- * Metod for lose and output result  *
- *************************************/
+/* Metod for losing and output result */
 void Table::game_over()
 {
     system("cls");
@@ -339,9 +361,11 @@ void Table::game_over()
     exit(0);
 }
 
-/*************************************
- * Metod for checking status of game *
- *************************************/
+/*
+    Metod for checking status of game.
+    If we have opportunetes to combine
+    blocks return false, else return true
+*/
 bool Table::is_dead()
 {
     for(size_t i = 0; i < ROW; ++i)
